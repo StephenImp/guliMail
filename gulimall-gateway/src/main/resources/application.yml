@@ -2,6 +2,8 @@ spring:
   cloud:
     gateway:
       routes:
+
+#       访问示例: localhost:88/hello?url=baidu   ->   最终网关发送请求 ：baidu.com/hello
 #        - id: test_route
 #          uri: https://www.baidu.com
 #          predicates:
@@ -12,6 +14,9 @@ spring:
 #          predicates:
 #            - Query=url,qq
 
+        # id 唯一即可
+        # uri 去哪个服务
+        # predicates  以/api/product/ 开头的路由
         - id: product_route
           uri: lb://gulimall-product
           predicates:
