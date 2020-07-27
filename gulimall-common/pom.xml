@@ -12,6 +12,14 @@
     <artifactId>gulimall-common</artifactId>
     <description>存放每一个微服务公共的依赖、bean、工具类等</description>
 
+
+    <!-- 我是最新的jdk所以写的是10 根据你自己的jdk版本写 1.7/1.8~~~~ -->
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+    </properties>
+
     <dependencies>
 
         <!-- mybatis-plus -->
