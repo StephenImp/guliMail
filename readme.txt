@@ -6,3 +6,7 @@ GulimallCouponApplication
 
 (3)Feign
 localhost:8000/member/member/coupons
+
+
+(4) gulimall-product
+三级分类

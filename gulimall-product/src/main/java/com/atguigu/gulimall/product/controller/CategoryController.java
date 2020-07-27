@@ -96,7 +96,7 @@ public class CategoryController {
 
 		//categoryService.removeByIds(Arrays.asList(catIds));
 
-        categoryService.removeMenuByIds(Arrays.asList(catIds));
+        //categoryService.removeMenuByIds(Arrays.asList(catIds));
 
         return R.ok();
     }

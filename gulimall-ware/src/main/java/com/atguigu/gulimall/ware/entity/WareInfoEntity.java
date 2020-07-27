@@ -2,17 +2,16 @@ package com.atguigu.gulimall.ware.entity;
 
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import lombok.Data;
 
 import java.io.Serializable;
-import java.util.Date;
-import lombok.Data;
 
 /**
  * 仓库信息
  * 
- * @author leifengyang
- * @email leifengyang@gmail.com
- * @date 2019-10-08 09:59:40
+ * @author lubancantfly
+ * @email know390503802@qq.com
+ * @date 2020-04-02 08:18:11
  */
 @Data
 @TableName("wms_ware_info")

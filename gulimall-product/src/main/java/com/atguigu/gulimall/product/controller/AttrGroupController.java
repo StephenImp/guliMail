@@ -1,5 +1,6 @@
 package com.atguigu.gulimall.product.controller;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -65,7 +66,8 @@ public class AttrGroupController {
     ///product/attrgroup/{attrgroupId}/attr/relation
     @GetMapping("/{attrgroupId}/attr/relation")
     public R attrRelation(@PathVariable("attrgroupId") Long attrgroupId){
-        List<AttrEntity> entities =  attrService.getRelationAttr(attrgroupId);
+        //List<AttrEntity> entities =  attrService.getRelationAttr(attrgroupId);
+        List<AttrEntity> entities =  new ArrayList<>();
         return R.ok().put("data",entities);
     }
 
@@ -79,7 +81,7 @@ public class AttrGroupController {
 
     @PostMapping("/attr/relation/delete")
     public R deleteRelation(@RequestBody  AttrGroupRelationVo[] vos){
-        attrService.deleteRelation(vos);
+        //attrService.deleteRelation(vos);
         return R.ok();
     }
 

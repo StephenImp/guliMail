@@ -17,10 +17,12 @@ import java.util.List;
 public class Skus {
 
     private List<Attr> attr;
+
     private String skuName;
     private BigDecimal price;
     private String skuTitle;
     private String skuSubtitle;
+
     private List<Images> images;
     private List<String> descar;
     private int fullCount;

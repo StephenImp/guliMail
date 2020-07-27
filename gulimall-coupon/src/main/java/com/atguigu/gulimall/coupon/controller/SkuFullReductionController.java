@@ -1,25 +1,24 @@
 package com.atguigu.gulimall.coupon.controller;
 
-import java.util.Arrays;
-import java.util.Map;
-
 import com.atguigu.common.to.SkuReductionTo;
+import com.atguigu.common.utils.PageUtils;
+import com.atguigu.common.utils.R;
+import com.atguigu.gulimall.coupon.entity.SkuFullReductionEntity;
+import com.atguigu.gulimall.coupon.service.SkuFullReductionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import com.atguigu.gulimall.coupon.entity.SkuFullReductionEntity;
-import com.atguigu.gulimall.coupon.service.SkuFullReductionService;
-import com.atguigu.common.utils.PageUtils;
-import com.atguigu.common.utils.R;
+import java.util.Arrays;
+import java.util.Map;
 
 
 
 /**
  * 商品满减信息
  *
- * @author leifengyang
- * @email leifengyang@gmail.com
- * @date 2019-10-08 09:36:40
+ * @author lubancantfly
+ * @email know390503802@qq.com
+ * @date 2020-04-02 02:05:34
  */
 @RestController
 @RequestMapping("coupon/skufullreduction")
@@ -27,14 +26,12 @@ public class SkuFullReductionController {
     @Autowired
     private SkuFullReductionService skuFullReductionService;
 
-
     @PostMapping("/saveinfo")
     public R saveInfo(@RequestBody SkuReductionTo reductionTo){
 
         skuFullReductionService.saveSkuReduction(reductionTo);
         return R.ok();
     }
-
 
     /**
      * 列表

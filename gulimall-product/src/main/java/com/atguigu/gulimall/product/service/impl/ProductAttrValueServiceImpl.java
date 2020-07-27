@@ -1,21 +1,19 @@
 package com.atguigu.gulimall.product.service.impl;
 
+import com.atguigu.common.utils.PageUtils;
+import com.atguigu.common.utils.Query;
+import com.atguigu.gulimall.product.dao.ProductAttrValueDao;
+import com.atguigu.gulimall.product.entity.ProductAttrValueEntity;
+import com.atguigu.gulimall.product.service.ProductAttrValueService;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.metadata.IPage;
+import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
-
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.atguigu.common.utils.PageUtils;
-import com.atguigu.common.utils.Query;
-
-import com.atguigu.gulimall.product.dao.ProductAttrValueDao;
-import com.atguigu.gulimall.product.entity.ProductAttrValueEntity;
-import com.atguigu.gulimall.product.service.ProductAttrValueService;
-import org.springframework.transaction.annotation.Transactional;
 
 
 @Service("productAttrValueService")
@@ -31,17 +29,32 @@ public class ProductAttrValueServiceImpl extends ServiceImpl<ProductAttrValueDao
         return new PageUtils(page);
     }
 
+    /**
+     * 保存spu的规格参数;pms_product_attr_value
+     * @param collect
+     */
     @Override
     public void saveProductAttr(List<ProductAttrValueEntity> collect) {
         this.saveBatch(collect);
     }
 
+    /**
+     * 获取spu规格
+     * @param spuId 商品spuId
+     * @return
+     */
     @Override
     public List<ProductAttrValueEntity> baseAttrlistforspu(Long spuId) {
-        List<ProductAttrValueEntity> entities = this.baseMapper.selectList(new QueryWrapper<ProductAttrValueEntity>().eq("spu_id", spuId));
-        return entities;
+
+        List<ProductAttrValueEntity> productAttrValueEntityList = this.baseMapper.selectList(new QueryWrapper<ProductAttrValueEntity>().eq("spu_id", spuId));
+        return productAttrValueEntityList;
     }
 
+    /**
+     * 根据spu修改商品spu信息 修改商品规格
+     * @param spuId
+     * @param entities
+     */
     @Transactional
     @Override
     public void updateSpuAttr(Long spuId, List<ProductAttrValueEntity> entities) {

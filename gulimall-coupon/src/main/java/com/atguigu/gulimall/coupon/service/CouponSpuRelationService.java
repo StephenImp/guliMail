@@ -9,9 +9,9 @@ import java.util.Map;
 /**
  * 优惠券与产品关联
  *
- * @author leifengyang
- * @email leifengyang@gmail.com
- * @date 2019-10-08 09:36:40
+ * @author lubancantfly
+ * @email know390503802@qq.com
+ * @date 2020-04-02 02:05:34
  */
 public interface CouponSpuRelationService extends IService<CouponSpuRelationEntity> {
 

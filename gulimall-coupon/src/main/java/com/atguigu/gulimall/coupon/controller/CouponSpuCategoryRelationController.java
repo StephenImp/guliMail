@@ -20,9 +20,9 @@ import com.atguigu.common.utils.R;
 /**
  * 优惠券分类关联
  *
- * @author leifengyang
- * @email leifengyang@gmail.com
- * @date 2019-10-08 09:36:40
+ * @author lubancantfly
+ * @email know390503802@qq.com
+ * @date 2020-04-02 02:05:34
  */
 @RestController
 @RequestMapping("coupon/couponspucategoryrelation")

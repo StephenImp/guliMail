@@ -10,16 +10,16 @@ import java.util.Map;
 /**
  * 商品满减信息
  *
- * @author leifengyang
- * @email leifengyang@gmail.com
- * @date 2019-10-08 09:36:40
+ * @author lubancantfly
+ * @email know390503802@qq.com
+ * @date 2020-04-02 02:05:34
  */
 public interface SkuFullReductionService extends IService<SkuFullReductionEntity> {
 
     PageUtils queryPage(Map<String, Object> params);
 
     void saveSkuReduction(SkuReductionTo reductionTo);
-
-
 }
+
+
 

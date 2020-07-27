@@ -13,27 +13,44 @@ import java.util.Map;
 /**
  * 商品属性
  *
- * @author leifengyang
- * @email leifengyang@gmail.com
- * @date 2019-10-01 21:08:49
+ * @author é²ç­ä¸ä¼é£
+ * @email know390503802@qq.com
+ * @date 2020-04-01 23:12:37
  */
 public interface AttrService extends IService<AttrEntity> {
 
     PageUtils queryPage(Map<String, Object> params);
 
-    void saveAttr(AttrVo attr);
+    void saveAttrVo(AttrVo attrVo);
 
     PageUtils queryBaseAttrPage(Map<String, Object> params, Long catelogId, String type);
 
-    AttrRespVo getAttrInfo(Long attrId);
+    AttrRespVo getAttrDetail(Long attrId);
 
-    void updateAttr(AttrVo attr);
+    void updateAttrDetail(AttrVo attr);
 
-    List<AttrEntity> getRelationAttr(Long attrgroupId);
+    /**
+     * 根据分组id查询关联的所有属性
+     * @param attrgroupId
+     * @return
+     */
+    List<AttrEntity> getAttrRelation(Long attrgroupId);
 
-    void deleteRelation(AttrGroupRelationVo[] vos);
+    void deleteAttrRelation(AttrGroupRelationVo[] attrGroupRelationVos);
 
+    /**
+     * 获取分组未关联的属性
+     * @param params
+     * @param attrgroupId
+     * @return
+     */
     PageUtils getNoRelationAttr(Map<String, Object> params, Long attrgroupId);
 
+    /**
+     * 指定的的所有属性集合里，查询出可被检索的属性
+     * @param attrIds 用来查询的属性id集合
+     * @return
+     */
+    List<Long> selectSearchAttrs(List<Long> attrIds);
 }
 

@@ -11,9 +11,9 @@ import lombok.Data;
 /**
  * 支付信息表
  * 
- * @author leifengyang
- * @email leifengyang@gmail.com
- * @date 2019-10-08 09:56:16
+ * @author lubancantfly
+ * @email know390503802@qq.com
+ * @date 2020-04-02 08:15:16
  */
 @Data
 @TableName("oms_payment_info")

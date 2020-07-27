@@ -5,28 +5,26 @@ import com.atguigu.common.utils.R;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.MethodArgumentNotValidException;
-import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-import org.springframework.web.servlet.ModelAndView;
 
 import java.util.HashMap;
 import java.util.Map;
 
 /**
- * 集中处理所有异常
- */
+ * @Description 统一异常处理
+ * @Author 鲁班爱喝旺仔
+ * @Date 2020/4/5 05:28
+ * @Version 1.0
+ **/
 @Slf4j
-//@ResponseBody
-//@ControllerAdvice(basePackages = "com.atguigu.gulimall.product.controller")
-@RestControllerAdvice(basePackages = "com.atguigu.gulimall.product.controller")
+@RestControllerAdvice(basePackages = "com.atguigu.gulimall.product.app")
 public class GulimallExceptionControllerAdvice {
 
-
-    @ExceptionHandler(value= MethodArgumentNotValidException.class)
+    @ExceptionHandler(value=MethodArgumentNotValidException.class)
     public R handleVaildException(MethodArgumentNotValidException e){
         log.error("数据校验出现问题{}，异常类型：{}",e.getMessage(),e.getClass());
+
         BindingResult bindingResult = e.getBindingResult();
 
         Map<String,String> errorMap = new HashMap<>();
@@ -42,6 +40,5 @@ public class GulimallExceptionControllerAdvice {
         log.error("错误：",throwable);
         return R.error(BizCodeEnume.UNKNOW_EXCEPTION.getCode(),BizCodeEnume.UNKNOW_EXCEPTION.getMsg());
     }
-
 
 }

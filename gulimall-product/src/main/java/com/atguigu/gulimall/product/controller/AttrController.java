@@ -76,7 +76,8 @@ public class AttrController {
     //@RequiresPermissions("product:attr:info")
     public R info(@PathVariable("attrId") Long attrId){
 		//AttrEntity attr = attrService.getById(attrId);
-        AttrRespVo respVo = attrService.getAttrInfo(attrId);
+//        AttrRespVo respVo = attrService.getAttrInfo(attrId);
+        AttrRespVo respVo = new AttrRespVo();
 
         return R.ok().put("attr", respVo);
     }
@@ -87,7 +88,7 @@ public class AttrController {
     @RequestMapping("/save")
     //@RequiresPermissions("product:attr:save")
     public R save(@RequestBody AttrVo attr){
-		attrService.saveAttr(attr);
+		//attrService.saveAttr(attr);
 
         return R.ok();
     }
@@ -101,7 +102,7 @@ public class AttrController {
     @RequestMapping("/update")
     //@RequiresPermissions("product:attr:update")
     public R update(@RequestBody AttrVo attr){
-		attrService.updateAttr(attr);
+		//attrService.updateAttr(attr);
 
         return R.ok();
     }

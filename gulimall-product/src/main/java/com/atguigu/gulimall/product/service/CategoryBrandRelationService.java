@@ -11,9 +11,9 @@ import java.util.Map;
 /**
  * 品牌分类关联
  *
- * @author leifengyang
- * @email leifengyang@gmail.com
- * @date 2019-11-17 21:25:25
+ * @author lubancantfly
+ * @email know390503802@qq.com
+ * @date 2020-04-01 23:12:37
  */
 public interface CategoryBrandRelationService extends IService<CategoryBrandRelationEntity> {
 
@@ -25,7 +25,11 @@ public interface CategoryBrandRelationService extends IService<CategoryBrandRela
 
     void updateCategory(Long catId, String name);
 
+    /**
+     * 获取分类关联的品牌
+     * @param catId
+     * @return
+     */
     List<BrandEntity> getBrandsByCatId(Long catId);
-
 }
 

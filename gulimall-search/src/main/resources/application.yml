@@ -1,0 +1,15 @@
+master:
+  ip: 192.168.199.206
+spring:
+  cloud:
+    nacos:
+      discovery:
+        server-addr: ${master.ip}:8848
+  application:
+    name: gulimall-search
+
+
+
+
+server:
+  port: 12000

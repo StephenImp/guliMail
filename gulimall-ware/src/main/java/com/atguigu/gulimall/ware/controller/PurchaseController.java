@@ -1,28 +1,27 @@
 package com.atguigu.gulimall.ware.controller;
 
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-
+import com.atguigu.common.utils.PageUtils;
+import com.atguigu.common.utils.R;
+import com.atguigu.gulimall.ware.entity.PurchaseEntity;
+import com.atguigu.gulimall.ware.service.PurchaseService;
 import com.atguigu.gulimall.ware.vo.MergeVo;
 import com.atguigu.gulimall.ware.vo.PurchaseDoneVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import com.atguigu.gulimall.ware.entity.PurchaseEntity;
-import com.atguigu.gulimall.ware.service.PurchaseService;
-import com.atguigu.common.utils.PageUtils;
-import com.atguigu.common.utils.R;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
 
 
 
 /**
  * 采购信息
  *
- * @author leifengyang
- * @email leifengyang@gmail.com
- * @date 2019-11-17 13:50:10
+ * @author lubancantfly
+ * @email know390503802@qq.com
+ * @date 2020-04-02 08:18:11
  */
 @RestController
 @RequestMapping("ware/purchase")
@@ -30,7 +29,11 @@ public class PurchaseController {
     @Autowired
     private PurchaseService purchaseService;
 
-    ///ware/purchase/done
+    /**
+     * 完成采购单
+     * @param doneVo
+     * @return
+     */
     @PostMapping("/done")
     public R finish(@RequestBody PurchaseDoneVo doneVo){
 
@@ -51,8 +54,13 @@ public class PurchaseController {
         return R.ok();
     }
 
-    ///ware/purchase/unreceive/list
-    ///ware/purchase/merge
+    /**
+     * 合并采购需求
+     * //ware/purchase/unreceive/list
+     * //ware/purchase/merge
+     * @param mergeVo
+     * @return
+     */
     @PostMapping("/merge")
     public R merge(@RequestBody MergeVo mergeVo){
 
@@ -60,6 +68,12 @@ public class PurchaseController {
         return R.ok();
     }
 
+
+    /**
+     * 查询未领取的采购单
+     * @param params
+     * @return
+     */
     @RequestMapping("/unreceive/list")
     //@RequiresPermissions("ware:purchase:list")
     public R unreceivelist(@RequestParam Map<String, Object> params){
@@ -97,8 +111,8 @@ public class PurchaseController {
     @RequestMapping("/save")
     //@RequiresPermissions("ware:purchase:save")
     public R save(@RequestBody PurchaseEntity purchase){
-        purchase.setUpdateTime(new Date());
         purchase.setCreateTime(new Date());
+        purchase.setUpdateTime(new Date());
 		purchaseService.save(purchase);
 
         return R.ok();

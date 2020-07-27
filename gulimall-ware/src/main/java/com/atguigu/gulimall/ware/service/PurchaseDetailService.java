@@ -10,16 +10,19 @@ import java.util.Map;
 /**
  * 
  *
- * @author leifengyang
- * @email leifengyang@gmail.com
- * @date 2019-11-17 13:50:10
+ * @author lubancantfly
+ * @email know390503802@qq.com
+ * @date 2020-04-02 08:18:11
  */
 public interface PurchaseDetailService extends IService<PurchaseDetailEntity> {
 
     PageUtils queryPage(Map<String, Object> params);
 
+    /**
+     * 查询采购项
+     * @param id 采购单id
+     * @return
+     */
     List<PurchaseDetailEntity> listDetailByPurchaseId(Long id);
-
-
 }
 
