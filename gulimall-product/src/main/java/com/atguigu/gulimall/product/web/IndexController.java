@@ -53,7 +53,11 @@ public class IndexController {
     public String hello() {
         RLock mylock = redisson.getLock("mylock");
 
-        mylock.lock(); // 加锁 阻塞式等待
+        // 锁的自动续期,如果业务超长，运行期间自动给锁续上新的30s，不用担心业务时间超长，锁自动过期被删掉
+        // 加锁的业务只要运行完成，就不会给当前锁续期，即使不手动解锁，锁默认在30s以后自动删除
+        mylock.lock(); // 加锁 阻塞式等待,默认是30s
+
+
         try {
             System.out.println(Thread.currentThread().getId() + "---> 加锁成功");
             Thread.sleep(10000);

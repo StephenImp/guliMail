@@ -361,8 +361,8 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryDao, CategoryEntity
                 dataFromDB = getCatalogJSONDataFromDB();
             } finally {
                 // 获取对比值和对比成功删除锁也是要同步的、原子的执行  参照官方使用lua脚本解锁
+                // 删除锁的时候直接执行脚本，那么就相当于是原子性操作
                 String script = "if redis.call('get',KEYS[1]) == ARGV[1] then return redis.call('del',KEYS[1]) else return 0 end";
-
                 Long lock1 = stringRedisTemplate.execute(new DefaultRedisScript<Long>(script, Long.class),
                         Arrays.asList("lock"), uuid);
             }
