@@ -148,6 +148,7 @@ public class SkuInfoServiceImpl extends ServiceImpl<SkuInfoDao, SkuInfoEntity> i
 
         SkuItemVo skuItemVo = new SkuItemVo();
 
+        //step 1
         // supplyAsync 需要返回结果  因为 3 4 5 依赖1
         CompletableFuture<SkuInfoEntity> infoFuture = CompletableFuture.supplyAsync(() -> {
             // 1、获取sku基本信息 pms_sku_info
@@ -156,30 +157,37 @@ public class SkuInfoServiceImpl extends ServiceImpl<SkuInfoDao, SkuInfoEntity> i
             return skuInfoEntity;
         }, executor);
 
+
+        //step 2   拿到1的返回结果才执行
         CompletableFuture<Void> saleFuture = infoFuture.thenAcceptAsync((res) -> {
             // 3、获取spu的销售属性组合
             List<SkuItemSaleAttrVo> skuItemSaleAttrVos = skuSaleAttrValueService.getSaleAttrsBySpuId(res.getSpuId());
             skuItemVo.setSaleAttrs(skuItemSaleAttrVos);
         }, executor);
 
+        //step 3  拿到1的返回结果才执行
         CompletableFuture<Void> descFuture = infoFuture.thenAcceptAsync((res) -> {
             // 4、获取spu的介绍 pms_spu_info_desc
             SpuInfoDescEntity spuInfoDescEntity = spuInfoDescService.getById(res.getSpuId());
             skuItemVo.setDesp(spuInfoDescEntity);
         }, executor);
 
+        //step 4  拿到1的返回结果才执行
         CompletableFuture<Void> baseAttrFuture = infoFuture.thenAcceptAsync((res) -> {
             // 5、获取spu的规格参数信息
             List<SpuItemAttrGroupVo> attrGroupVos = attrGroupService.getAttrGroupWithAttrsBySpuId(res.getCatalogId(), res.getSpuId());
             skuItemVo.setAttrGroups(attrGroupVos);
         }, executor);
 
+        //step 5
         CompletableFuture<Void> imageFuture = CompletableFuture.runAsync(() -> {
             // 2、获取sku的图片信息 pms_spu_images
             List<SkuImagesEntity> skuImagesEntities = skuImagesService.getImageBySkuId(skuId);
             skuItemVo.setImages(skuImagesEntities);
         }, executor);
 
+
+        //step 6
         // 6、查询当前sku是否参与秒杀优惠
         CompletableFuture<Void> secKillFuture = CompletableFuture.runAsync(() -> {
             R skuSecKillInfo = secKillFeignService.getSkuSecKillInfo(skuId);

@@ -103,6 +103,7 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryDao, CategoryEntity
 
     /**
      * 级联更新所有关联的数据
+     * 批量的清除缓存
      *
      * @param category
      */
@@ -131,11 +132,14 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryDao, CategoryEntity
      * 1)、默认缓存不过期
      * 4、自定义
      * 1)、指定缓存生成指定的key
-     * 2)、指定缓存的过期时间  配置文件修改ttl
-     * 3)、将缓存的value保存为json格式
+     * 2)、指定缓存的过期时间  配置文件修改ttl   配置文件中设置
+     * 3)、将缓存的value保存为json格式  MyCacheConfig
      *
      * @return
      */
+
+    // category 这个区， 缓存的名字是getLeve1Categorys   sync  是否加本地锁
+    //读缓存，没有的话，读数据库，有的话，读缓存，双读 用 本地锁锁住
     @Cacheable(value = {"category"}, key = "#root.method.name", sync = true)
     @Override
     public List<CategoryEntity> getLeve1Categorys() {
@@ -266,10 +270,6 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryDao, CategoryEntity
 
         return dataFromDB;
     }
-
-
-
-
 
     /**
      * 从数据库获取分类数据
