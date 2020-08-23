@@ -21,6 +21,9 @@ public class GulimallWebConfig implements WebMvcConfigurer {
     public void addViewControllers(ViewControllerRegistry registry) {
 
 //        registry.addViewController("/login.html").setViewName("login");
+
+
+        // url 为 /reg.html  则 跳转 reg  就是去 reg.html
         registry.addViewController("/reg.html").setViewName("reg");
     }
 }

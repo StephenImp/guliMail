@@ -16,6 +16,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.util.HashMap;
@@ -65,6 +66,14 @@ public class OAuth2Controller {
                 MemberRespVo memberRespVo = r.getData("data", new TypeReference<MemberRespVo>() {
                 });
                 log.info("微博用户登录成功，用户信息：{}", memberRespVo);
+                //第一次使用session:命令浏览器保存jsessionID放在cookie里
+                //以后浏览器访问哪个网站，就会带上这个网站的cookie
+                //子域之间:  gulimail.com(父域名)   auth.gulimail.com(子域名)  order.gulimail.com(子域名)
+                //在服务器给浏览器发送jsessionID的时候，即使是子域名系统发的jsessionID，父域系统也能使用
+                //就是如果是子域名系统发JsessionID的时候,指定域名为父域名
+                //new Cookie("JSESSIONID","test").setDomain("xxx");
+                //servletResponse.addCookie();
+
                 session.setAttribute(AuthServerConstant.LOGIN_USER, memberRespVo);
 
                 return "redirect:http://gulimall.com";
