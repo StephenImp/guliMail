@@ -15,9 +15,15 @@ import org.springframework.test.context.junit4.SpringRunner;
 @SpringBootTest
 public class GulimallOrderApplicationTests {
 
+	/**
+	 * 帮我们创建队列,和路由键的绑定关系
+	 */
 	@Autowired
 	AmqpAdmin amqpAdmin;
 
+	/**
+	 * 帮我们发送消息
+	 */
 	@Autowired
 	RabbitTemplate rabbitTemplate;
 
