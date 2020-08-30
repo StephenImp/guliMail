@@ -156,6 +156,9 @@ public class WareSkuServiceImpl extends ServiceImpl<WareSkuDao, WareSkuEntity> i
 
     /**
      * 锁定某个订单的库存
+     *
+     * 下订单后，这个订单下的每个商品都要锁定库存
+     *
      * <p>
      * 库存解锁场景：
      * 1)、下单成功，订单过期没有支付被系统自动取消、被用户手动取消
@@ -189,6 +192,7 @@ public class WareSkuServiceImpl extends ServiceImpl<WareSkuDao, WareSkuEntity> i
             Long skuId = item.getSkuId();
             skuWareHasStock.setSkuId(skuId);
 
+            //查询这个商品在哪里有库存
             List<Long> wareIds = baseMapper.listWareIdHasSkuStock(skuId);
             skuWareHasStock.setWareIds(wareIds);
 
