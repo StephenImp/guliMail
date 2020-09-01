@@ -1,12 +1,13 @@
 package com.atguigu.gulimall.order.config;
 
-import org.springframework.amqp.core.Binding;
-import org.springframework.amqp.core.Exchange;
-import org.springframework.amqp.core.Queue;
-import org.springframework.amqp.core.TopicExchange;
+import com.atguigu.gulimall.order.entity.OrderEntity;
+import com.rabbitmq.client.Channel;
+import org.springframework.amqp.core.*;
+import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import java.io.IOException;
 import java.util.HashMap;
 
 /**
@@ -18,7 +19,21 @@ import java.util.HashMap;
 @Configuration
 public class MyRabbitMQConfig {
 
-    /* 容器中的Queue、Exchange、Binding 会自动创建（在RabbitMQ）不存在的情况下 */
+
+    @RabbitListener(queues = "order.release.order.queue")
+    public void listener(OrderEntity entity, Channel channel, Message message) throws IOException {
+        System.out.println("收到了过期的订单消息:准备关闭订单:"+entity.getOrderSn());
+        channel.basicAck(message.getMessageProperties().getDeliveryTag(),false);
+    }
+
+    /**
+     * 容器中的Queue、Exchange、Binding 会自动创建（在RabbitMQ）不存在的情况下
+     * 但是 RabbitMQ 中如果队列先创建好了，哪怕是这里改了属性，也没有用了
+     *
+     *
+     *
+     * */
+
     /**
      * 死信队列
      * @return

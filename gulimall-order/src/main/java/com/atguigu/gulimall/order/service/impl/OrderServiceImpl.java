@@ -28,6 +28,7 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.IdWorker;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import io.seata.spring.annotation.GlobalTransactional;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -159,6 +160,7 @@ public class OrderServiceImpl extends ServiceImpl<OrderDao, OrderEntity> impleme
      * @param orderSubmitVo
      * @return
      */
+    //@GlobalTransactional   这里seata不合适
     @Transactional
     @Override
     public SubmitOrderRespVo submitOrder(OrderSubmitVo orderSubmitVo) {
