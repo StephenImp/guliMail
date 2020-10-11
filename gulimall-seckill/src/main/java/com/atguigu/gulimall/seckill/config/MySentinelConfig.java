@@ -14,9 +14,8 @@ import java.io.IOException;
 
 /**
  * @Description 自定义错误返回
- * @Author 鲁班不会飞
- * @Date 2020/5/13 01:03
- * @Version 1.0
+ * 熔断降级后自定义返回
+ *
  **/
 @Configuration
 public class MySentinelConfig {

@@ -127,6 +127,7 @@ public class SeckillServiceImpl implements SeckillService {
 
                 session.getRelationSkus().stream().forEach(seckillSkuVo -> {
 
+                    //幂等性保证
                     if (!ops.hasKey(seckillSkuVo.getPromotionSessionId().toString() + "_" + seckillSkuVo.getSkuId().toString())) {
                         SecKillSkuRedsTo secKillSkuRedsTo = new SecKillSkuRedsTo();
                         // 1、sku基本信息
@@ -205,8 +206,8 @@ public class SeckillServiceImpl implements SeckillService {
 
                     List<String> range = stringRedisTemplate.opsForList().range(key, -100, 100);
 
+                    //这就拿到了所有的商品id?
                     BoundHashOperations<String, String, String> hashOps = stringRedisTemplate.boundHashOps(SKUKILL_CACHE_PREFIX);
-
                     List<String> list = hashOps.multiGet(range);
 
                     if (list != null && list.size() > 0) {
@@ -273,7 +274,7 @@ public class SeckillServiceImpl implements SeckillService {
      * 秒杀商品
      *
      * @param killId 场次id_商品skuid
-     * @param key    秒杀需要携带的令牌
+     * @param key    秒杀需要携带的令牌   随机码
      * @param num    秒杀的数量
      * @return
      */
@@ -282,6 +283,7 @@ public class SeckillServiceImpl implements SeckillService {
 
         MemberRespVo memberRespVo = LoginUserInterceptor.threadLocal.get();
 
+        //获取当前秒杀商品的详细信息
         BoundHashOperations<String, String, String> hasOps = stringRedisTemplate.boundHashOps(SKUKILL_CACHE_PREFIX);
 
         // 1、校验数据
@@ -309,13 +311,13 @@ public class SeckillServiceImpl implements SeckillService {
                         String rediKey = memberRespVo.getId() + "_" + secKillSkuRedsTo.getPromotionSessionId() + "_" + secKillSkuRedsTo.getSkuId();
                         // 过期时间
                         long ttlTime = endTime - startTime;
-                        // setIfAbsent() 只有key不存在才会占位成功
+                        // setIfAbsent() 只有key不存在才会占位成功   setNx
                         Boolean aBoolean = stringRedisTemplate.opsForValue().setIfAbsent(rediKey, num.toString(), ttlTime, TimeUnit.MILLISECONDS);
                         if (aBoolean) { // 占位成功，当前用户没有购买过 //TODO 解决：假设每个用户限购2个，但是第一次用户只购买了一件商品
                             // 校验当前商品的信号量
                             RSemaphore semaphore = redissonClient.getSemaphore(SKU_STOCK_SEMAPHORE + key);
 
-                            // 校验能不能拿到信号量
+                            // 校验能不能拿到信号量  根据key 从信号量中去取
                             boolean tryAcquire = semaphore.tryAcquire(num);
                             if (tryAcquire) {
                                 // 秒杀成功，快速下单 发送一个MQ消息
@@ -332,6 +334,8 @@ public class SeckillServiceImpl implements SeckillService {
                                 // 发送消息
                                 rabbitTemplate.convertAndSend("order-event-exchange", "order.seckill.order", secKillOrderTo);
 
+
+                                //同步返回订单号，并且异步的去创建订单
                                 return orderSn;
                             }
 

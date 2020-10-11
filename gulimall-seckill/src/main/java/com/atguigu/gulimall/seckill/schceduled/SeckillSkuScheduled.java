@@ -29,7 +29,7 @@ public class SeckillSkuScheduled {
     private final String upload_lock = "seckill_upload:lock";
 
     /**
-     * 每天晚上3点，上架最近三天需要参与秒死的商品
+     * 每天晚上3点，上架最近三天需要参与秒杀的商品
      * 测试：0/5 * * * * ?
      * 三点：0 0 3 * * ?
      */
@@ -39,7 +39,7 @@ public class SeckillSkuScheduled {
         log.info("******上架秒杀商品信息******");
 
         RLock lock = redissonClient.getLock(upload_lock);
-        lock.lock(10, TimeUnit.SECONDS); // 加锁
+        lock.lock(10, TimeUnit.SECONDS); // 加锁   预计10秒内能解锁完
 
         try {
             seckillService.uploadSeckillSkuLatetst3Days();

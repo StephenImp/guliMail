@@ -1,0 +1,40 @@
+FROM java:8  # 微服务依赖的基础镜像是java8
+EXPOSE 8080     #jar包启动暴露的是80端口
+
+VOLUME /tmp     #挂载的目录
+ADD renren-fast.jar  /app.jar      #相当于 cp  renren-fast.jar(编译打包后的jar)     /app.jar         cp到根目录下的  app.jar
+RUN bash -c 'touch /app.jar'        #前面已经在 /  下创建了 app.jar  这个就是更新一下 jar 的创建时间
+ENTRYPOINT ["java","-jar","/app.jar"]      #容器启动默认的命令
+
+
+mvn clean install
+
+将打好的jar 和 dockerFile 都放在 linux的/admin 文件夹下
+
+①生成镜像
+docker build -f Dockerfile -t docker.io/imp/cart:v1.0 .
+
+②启动容器
+docker run -d --name hello-admin  -p 8080:8080  imp/cart:v1.0
+
+③推送镜像到远程仓库
+docker login -u 用户名 -p 密码
+docker push docker.io/imp/cart:v1.0
+
+
+
+每个微服务都创建打成镜像
+
+在每一个微服务的根目录下创建一个Dockerfile
+所有的微服务在容器内部都是8080端口，在往外暴露时不要都是8080端口，否则会存在冲突
+
+
+FROM java:8
+EXPOSE 8080
+
+VOLUME /tmp
+ADD target/*.jar  /app.jar
+RUN bash -c 'touch /app.jar'
+ENTRYPOINT ["java","-jar","/app.jar","--spring.profiles.active=prod"]
+
+
