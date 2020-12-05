@@ -1,3 +1,4 @@
+# 定义流水线
 pipeline {
   agent {
     node {
@@ -6,6 +7,14 @@ pipeline {
 
   }
 
+# 用来接收参数
+
+    parameters {
+      string(name: 'PROJECT_VERSION', defaultValue: 'v0.0Beta', description: '')
+      string(name: 'PROJECT_NAME', defaultValue: '', description: '')
+    }
+
+# 用来定义固定的环境变量
   environment {
     DOCKER_CREDENTIAL_ID = 'dockerhub-id'
     GITHUB_CREDENTIAL_ID = 'gitee-id'
@@ -17,6 +26,7 @@ pipeline {
     BRANCH_NAME = 'prod'
   }
 
+# 定义步骤
   stages {
     stage('拉取代码') {
       steps {
@@ -71,8 +81,5 @@ pipeline {
      }
 
   }
-  parameters {
-    string(name: 'PROJECT_VERSION', defaultValue: 'v0.0Beta', description: '')
-    string(name: 'PROJECT_NAME', defaultValue: '', description: '')
-  }
+
 }

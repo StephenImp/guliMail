@@ -1,48 +1,77 @@
+#部署文件
+
+#部署成一个pod
 kind: Deployment
+#固定版本  apps/v1
 apiVersion: apps/v1
+#元数据信息
 metadata:
   name: gulimall-gateway
+  # K8S 下 gulimall 这个项目下
   namespace: gulimall
+  # 给应用起了一个自己的名字
   labels:
     app: gulimall-gateway
+
+# 部署规格详情
 spec:
+  #副本数 1
   replicas: 1
+  # 选择器
   selector:
+    # 选择上面配置的metadata.labels.app
     matchLabels:
       app: gulimall-gateway
+  # 部署模板
   template:
     metadata:
       labels:
         app: gulimall-gateway
     spec:
       containers:
+        # 容器名称
         - name: gulimall-gateway
+          # dockerThub 地址(docker仓库地址 )
+          # 这些动态的值从jenkins的流水线里面去取值
           image: $REGISTRY/$DOCKERHUB_NAMESPACE/$PROJECT_NAME:latest
+          # 容器暴露的端口
           ports:
             - containerPort: 8080
               protocol: TCP
           resources:
             limits:
-              cpu: 1000m
+              cpu: 1000m  # 一核CPU是1000m
               memory: 1000Mi
             requests:
               cpu: 10m
               memory: 10Mi
+          # 容器的中断消息
           terminationMessagePath: /dev/termination-log
           terminationMessagePolicy: File
+          # 没有镜像就拉取，有镜像就不拉取
           imagePullPolicy: IfNotPresent
+      # 容器是不是要自己启动
       restartPolicy: Always
+      # 优雅停机的秒数
       terminationGracePeriodSeconds: 30
+  #策略
   strategy:
+    # 滚动更新策略 ： 镜像的版本如果从1.0升级成2.0 ，那么所有的应用都需要升级，
+    # 如果这个镜像有3个pod副本，那么K8S 会帮助我们 停一个pod（1.0），再启动一个(2.0)，再停一个pod(1.0) ...
     type: RollingUpdate
     rollingUpdate:
+      # 最大不可用
       maxUnavailable: 25%
+      # 最大存活
       maxSurge: 25%
+  # 保留历史版本数量
   revisionHistoryLimit: 10
   progressDeadlineSeconds: 600
 
+## 继续定义一个文档
+# Service暴露文件
 ---
-
+# 部署成一个Service
 kind: Service
 apiVersion: v1
 metadata:
@@ -54,8 +83,11 @@ spec:
   ports:
     - name: http
       protocol: TCP
+      # 暴露在外面的端口也是8080端口
       port: 8080
+      # 容器端口
       targetPort: 8080
+      # 通过nodePort 代理暴露的端口是 31004
       nodePort: 31004
   selector:
     app: gulimall-gateway
